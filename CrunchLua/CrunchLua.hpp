@@ -96,6 +96,7 @@ namespace crunchLua
                     if (lua_isnumber(_luaState, 4))
                     {
                         Float64 val4 = lua_tonumber(_luaState, 4);
+                        printf("%f %f %f %f\n", val1, val2, val3, val4);
                         lua_pushnumber(_luaState, s_noise.noise(val1, val2, val3, val4));
                     }
                     else
