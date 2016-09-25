@@ -373,7 +373,7 @@ namespace crunchLua
         addMemberFunction("element", LUANATIC_FUNCTION_OVERLOAD(const Float & (Mat3::*)(UInt32, UInt32) const, &Mat3::element)).
         addMemberFunction("translate2DByNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float, Float), &Mat3::translate2D)).
         addMemberFunction("translate2D", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(const Vec2 &), &Mat3::translate2D)).
-        addMemberFunction("scale2DByNumber", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float), &Mat3::scale)).
+        addMemberFunction("scale2DByNumber", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float), &Mat3::scale2D)).
         addMemberFunction("scale2DByNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float, Float), &Mat3::scale2D)).
         addMemberFunction("scale2D", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(const Vec2 &), &Mat3::scale2D)).
         addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float), &Mat3::scale)).
