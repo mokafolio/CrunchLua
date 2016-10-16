@@ -334,10 +334,10 @@ namespace crunchLua
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat2(Mat2::*)(Float)const, &Mat2::operator*)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Mat2::*)(const Vec2 &)const, &Mat2::operator*)).
         addMemberFunction("element", LUANATIC_FUNCTION_OVERLOAD(const Float & (Mat2::*)(UInt32, UInt32) const, &Mat2::element)).
-        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(void(Mat2::*)(Float), &Mat2::scale)).
-        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Mat2::*)(Float, Float), &Mat2::scale)).
-        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(void(Mat2::*)(const Vec2 &), &Mat2::scale)).
-        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(void(Mat2::*)(Float), &Mat2::rotate));
+        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat2&(Mat2::*)(Float), &Mat2::scale)).
+        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat2&(Mat2::*)(Float, Float), &Mat2::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat2&(Mat2::*)(const Vec2 &), &Mat2::scale)).
+        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat2&(Mat2::*)(Float), &Mat2::rotate));
 
         namespaceTable.registerClass(matrix2CW);
         namespaceTable.registerFunction("transpose2", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(const Mat2 &), &crunch::transpose));
@@ -371,19 +371,19 @@ namespace crunchLua
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Mat3::*)(const Vec3 &)const, &Mat3::operator*)).
         //addMemberFunction(ToStringFlag, detail::luaToStringHelper<Mat3>).
         addMemberFunction("element", LUANATIC_FUNCTION_OVERLOAD(const Float & (Mat3::*)(UInt32, UInt32) const, &Mat3::element)).
-        addMemberFunction("translate2DByNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float, Float), &Mat3::translate2D)).
-        addMemberFunction("translate2D", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(const Vec2 &), &Mat3::translate2D)).
-        addMemberFunction("scale2DByNumber", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float), &Mat3::scale2D)).
-        addMemberFunction("scale2DByNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float, Float), &Mat3::scale2D)).
-        addMemberFunction("scale2D", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(const Vec2 &), &Mat3::scale2D)).
-        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float), &Mat3::scale)).
-        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float, Float, Float), &Mat3::scale)).
-        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(const Vec3 &), &Mat3::scale)).
+        addMemberFunction("translate2DByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float, Float), &Mat3::translate2D)).
+        addMemberFunction("translate2D", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(const Vec2 &), &Mat3::translate2D)).
+        addMemberFunction("scale2DByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float), &Mat3::scale2D)).
+        addMemberFunction("scale2DByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float, Float), &Mat3::scale2D)).
+        addMemberFunction("scale2D", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(const Vec2 &), &Mat3::scale2D)).
+        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float), &Mat3::scale)).
+        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float, Float, Float), &Mat3::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(const Vec3 &), &Mat3::scale)).
         addMemberFunction("rotate2D", LUANATIC_FUNCTION(&Mat3::rotate2D)).
-        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float, const Vec3 &), &Mat3::rotate)).
-        addMemberFunction("rotateByEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(Float, Float, Float), &Mat3::rotate)).
-        addMemberFunction("rotateByQuaternion", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(const Quat &), &Mat3::rotate)).
-        addMemberFunction("rotateByEulerAngles", LUANATIC_FUNCTION_OVERLOAD(void(Mat3::*)(const Vec3 &), &Mat3::rotate));
+        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float, const Vec3 &), &Mat3::rotate)).
+        addMemberFunction("rotateByEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float, Float, Float), &Mat3::rotate)).
+        addMemberFunction("rotateByQuaternion", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(const Quat &), &Mat3::rotate)).
+        addMemberFunction("rotateByEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(const Vec3 &), &Mat3::rotate));
 
         namespaceTable.registerClass(matrix3CW);
         namespaceTable.registerFunction("transpose3", LUANATIC_FUNCTION_OVERLOAD(Mat3f(*)(const Mat3f &), &crunch::transpose));
@@ -422,15 +422,15 @@ namespace crunchLua
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Mat4::*)(const Vec3 &)const, &Mat4::operator*)).
         //addMemberFunction(ToStringFlag, detail::luaToStringHelper<Mat4>).
         addMemberFunction("element", LUANATIC_FUNCTION_OVERLOAD(const Float & (Mat4::*)(UInt32, UInt32) const, &Mat4::element)).
-        addMemberFunction("translateByNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Mat4::*)(Float, Float, Float), &Mat4::translate)).
-        addMemberFunction("translate", LUANATIC_FUNCTION_OVERLOAD(void(Mat4::*)(const Vec3 &), &Mat4::translate)).
-        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(void(Mat4::*)(Float), &Mat4::scale)).
-        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Mat4::*)(Float, Float, Float), &Mat4::scale)).
-        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(void(Mat4::*)(const Vec3 &), &Mat4::scale)).
-        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(void(Mat4::*)(Float, const Vec3 &), &Mat4::rotate)).
-        addMemberFunction("rotateByEulerAngles", LUANATIC_FUNCTION_OVERLOAD(void(Mat4::*)(const Vec3 &), &Mat4::rotate)).
-        addMemberFunction("rotateByEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Mat4::*)(Float, Float, Float), &Mat4::rotate)).
-        addMemberFunction("rotateByQuat", LUANATIC_FUNCTION_OVERLOAD(void(Mat4::*)(const Quat &), &Mat4::rotate));
+        addMemberFunction("translateByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(Float, Float, Float), &Mat4::translate)).
+        addMemberFunction("translate", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(const Vec3 &), &Mat4::translate)).
+        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(Float), &Mat4::scale)).
+        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(Float, Float, Float), &Mat4::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(const Vec3 &), &Mat4::scale)).
+        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(Float, const Vec3 &), &Mat4::rotate)).
+        addMemberFunction("rotateByEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(const Vec3 &), &Mat4::rotate)).
+        addMemberFunction("rotateByEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(Float, Float, Float), &Mat4::rotate)).
+        addMemberFunction("rotateByQuat", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(const Quat &), &Mat4::rotate));
 
         namespaceTable.registerClass(matrix4CW);
         namespaceTable.registerFunction("transpose", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(const Mat4 &), &crunch::transpose));
