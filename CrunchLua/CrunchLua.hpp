@@ -579,10 +579,9 @@ namespace crunchLua
         ClassWrapper<Line2> line2CW("Line2");
         line2CW.
         addConstructor("new").
-        addConstructor<const Vec2 &, const Vec2 &>("fromPoints").
+        addConstructor<const Vec2 &, const Vec2 &>("fromPointAndDirection").
         addConstructor<const Line2 &>("copy").
-        addMemberFunction("positionOne", LUANATIC_FUNCTION(&Line2::positionOne)).
-        addMemberFunction("positionTwo", LUANATIC_FUNCTION(&Line2::positionTwo)).
+        addMemberFunction("position", LUANATIC_FUNCTION(&Line2::position)).
         addMemberFunction("direction", LUANATIC_FUNCTION(&Line2::direction));
 
         namespaceTable.registerClass(line2CW);
@@ -594,8 +593,7 @@ namespace crunchLua
         addConstructor("new").
         addConstructor<const Vec3 &, const Vec3 &>("fromPoints").
         addConstructor<const Line3 &>("copy").
-        addMemberFunction("positionOne", LUANATIC_FUNCTION(&Line3::positionOne)).
-        addMemberFunction("positionTwo", LUANATIC_FUNCTION(&Line3::positionTwo)).
+        addMemberFunction("position", LUANATIC_FUNCTION(&Line3::position)).
         addMemberFunction("direction", LUANATIC_FUNCTION(&Line3::direction));
 
         namespaceTable.registerClass(line3CW);
