@@ -13,6 +13,7 @@
 #include <Crunch/Matrix4.hpp>
 #include <Crunch/MatrixFunc.hpp>
 #include <Crunch/Line.hpp>
+#include <Crunch/LineSegment.hpp>
 #include <Crunch/Rectangle.hpp>
 #include <Crunch/GeometricFunc.hpp>
 #include <Crunch/CommonFunc.hpp>
@@ -46,6 +47,7 @@ namespace crunchLua
     using Rect = crunch::Rectangle<Float>;
     using Line2 = crunch::Line<Vec2>;
     using Line3 = crunch::Line<Vec3>;
+    using LineSegment2 = crunch::LineSegment<Vec2>;
 
     namespace detail
     {
@@ -139,6 +141,21 @@ namespace crunchLua
         {
             Line2 * line = luanatic::convertToTypeAndCheck<Line2>(_luaState, 1);
             Line2 * line2 = luanatic::convertToTypeAndCheck<Line2>(_luaState, 2);
+
+            crunch::IntersectionResult<Vec2> result = intersect(*line, *line2);
+
+            if (result)
+                luanatic::pushValueType<Vec2>(_luaState, result.intersections()[0]);
+            else
+                lua_pushnil(_luaState);
+
+            return 1;
+        }
+
+        static Int32 luaLineSegment2Intersect(lua_State * _luaState)
+        {
+            LineSegment2 * line = luanatic::convertToTypeAndCheck<LineSegment2>(_luaState, 1);
+            LineSegment2 * line2 = luanatic::convertToTypeAndCheck<LineSegment2>(_luaState, 2);
 
             crunch::IntersectionResult<Vec2> result = intersect(*line, *line2);
 
@@ -581,22 +598,36 @@ namespace crunchLua
         addConstructor("new").
         addConstructor<const Vec2 &, const Vec2 &>("fromPointAndDirection").
         addConstructor<const Line2 &>("copy").
+        addStaticFunction("fromPoints", LUANATIC_FUNCTION(&Line2::fromPoints)).
         addMemberFunction("position", LUANATIC_FUNCTION(&Line2::position)).
         addMemberFunction("direction", LUANATIC_FUNCTION(&Line2::direction));
 
         namespaceTable.registerClass(line2CW);
-
         namespaceTable.registerFunction("intersectLines2", &detail::luaLine2Intersect);
 
         ClassWrapper<Line3> line3CW("Line3");
         line3CW.
         addConstructor("new").
-        addConstructor<const Vec3 &, const Vec3 &>("fromPoints").
+        addConstructor<const Vec3 &, const Vec3 &>("fromPointAndDirection").
         addConstructor<const Line3 &>("copy").
+        addStaticFunction("fromPoints", LUANATIC_FUNCTION(&Line3::fromPoints)).
         addMemberFunction("position", LUANATIC_FUNCTION(&Line3::position)).
         addMemberFunction("direction", LUANATIC_FUNCTION(&Line3::direction));
 
         namespaceTable.registerClass(line3CW);
+
+        ClassWrapper<LineSegment2> lineSegment2CW("LineSegment2");
+        lineSegment2CW.
+        addConstructor("new").
+        addConstructor<const Vec2 &, const Vec2 &>("fromPoints").
+        addConstructor<const LineSegment2 &>("copy").
+        addMemberFunction("positionOne", LUANATIC_FUNCTION(&LineSegment2::positionOne)).
+        addMemberFunction("direction", LUANATIC_FUNCTION(&LineSegment2::direction)).
+        addMemberFunction("positionTwo", LUANATIC_FUNCTION(&LineSegment2::positionTwo));
+
+        namespaceTable.registerClass(lineSegment2CW);
+        namespaceTable.registerFunction("intersectLineSegments2", &detail::luaLineSegment2Intersect);
+
 
         namespaceTable.registerFunction("random", detail::luaRandom);
         namespaceTable.registerFunction("noise", detail::luaNoise);
