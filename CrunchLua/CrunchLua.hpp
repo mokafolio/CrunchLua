@@ -186,16 +186,27 @@ namespace crunchLua
             }
         }
 
+        namespaceTable.registerFunction("abs", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Float &), &crunch::abs<Float>));
         namespaceTable.registerFunction("abs1", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Float &), &crunch::abs<Float>));
+        namespaceTable.registerFunction("floor", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Float &), &crunch::floor<Float>));
         namespaceTable.registerFunction("floor1", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Float &), &crunch::floor<Float>));
+        namespaceTable.registerFunction("ceil", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Float &), &crunch::ceil<Float>));
         namespaceTable.registerFunction("ceil1", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Float &), &crunch::ceil<Float>));
+        namespaceTable.registerFunction("fract", LUANATIC_FUNCTION(&crunch::fract<Float>));
         namespaceTable.registerFunction("fract1", LUANATIC_FUNCTION(&crunch::fract<Float>));
+        namespaceTable.registerFunction("min", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Float &, const Float &), &crunch::min<Float>));
         namespaceTable.registerFunction("min1", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Float &, const Float &), &crunch::min<Float>));
+        namespaceTable.registerFunction("max", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Float &, const Float &), &crunch::max<Float>));
         namespaceTable.registerFunction("max1", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Float &, const Float &), &crunch::max<Float>));
+        namespaceTable.registerFunction("clamp", LUANATIC_FUNCTION(&crunch::clamp<Float>));
         namespaceTable.registerFunction("clamp1", LUANATIC_FUNCTION(&crunch::clamp<Float>));
 
         ClassWrapper<Vec2> vector2CW("Vec2");
         vector2CW.
+        addConstructor<>().
+        addConstructor<Float, Float>().
+        addConstructor<const Vec2 &>().
+        addConstructor<Float>().
         addConstructor("new").
         addConstructor<Float, Float>("fromNumbers").
         addConstructor<const Vec2 &>("copy").
@@ -208,29 +219,55 @@ namespace crunchLua
         addMemberFunction("subtractNumber", LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(Float)const, &Vec2::operator-)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(Float)const, &Vec2::operator*)).
         addMemberFunction("divideByNumber", LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(Float)const, &Vec2::operator/)).
+        addMemberFunction("add", LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(const Vec2 &)const, &Vec2::operator+)).
+        addMemberFunction("subtract", LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(const Vec2 &)const, &Vec2::operator-)).
+        addMemberFunction("multiply", LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(const Vec2 &)const, &Vec2::operator*)).
+        addMemberFunction("divide", LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(const Vec2 &)const, &Vec2::operator/)).
         addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(const Vec2 &)const, &Vec2::operator+)).
         addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(const Vec2 &)const, &Vec2::operator-)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(const Vec2 &)const, &Vec2::operator*)).
-        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(const Vec2 &)const, &Vec2::operator/));
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(const Vec2 &)const, &Vec2::operator/)).
+        addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(Float)const, &Vec2::operator+)).
+        addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(Float)const, &Vec2::operator-)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(Float)const, &Vec2::operator*)).
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Vec2::*)(Float)const, &Vec2::operator/));
 
         namespaceTable.registerClass(vector2CW);
+        namespaceTable.registerFunction("cross", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &, const Vec2 &), &crunch::cross));
         namespaceTable.registerFunction("cross2", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &, const Vec2 &), &crunch::cross));
+        namespaceTable.registerFunction("normalize", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &), &crunch::normalize));
         namespaceTable.registerFunction("normalize2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &), &crunch::normalize));
+        namespaceTable.registerFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, Float), &crunch::rotate));
         namespaceTable.registerFunction("rotate2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, Float), &crunch::rotate));
+        namespaceTable.registerFunction("dot", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &, const Vec2 &), &crunch::dot));
         namespaceTable.registerFunction("dot2", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &, const Vec2 &), &crunch::dot));
+        namespaceTable.registerFunction("length", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &), &crunch::length));
         namespaceTable.registerFunction("length2", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &), &crunch::length));
+        namespaceTable.registerFunction("distance", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &, const Vec2 &), &crunch::distance));
         namespaceTable.registerFunction("distance2", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &, const Vec2 &), &crunch::distance));
+        namespaceTable.registerFunction("distanceSquared", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &, const Vec2 &), &crunch::distanceSquared));
         namespaceTable.registerFunction("distanceSquared2", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &, const Vec2 &), &crunch::distanceSquared));
+        namespaceTable.registerFunction("abs", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &), &crunch::abs<Float>));
         namespaceTable.registerFunction("abs2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &), &crunch::abs<Float>));
+        namespaceTable.registerFunction("floor", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &), &crunch::floor<Float>));
         namespaceTable.registerFunction("floor2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &), &crunch::floor<Float>));
+        namespaceTable.registerFunction("ceil", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &), &crunch::ceil<Float>));
         namespaceTable.registerFunction("ceil2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &), &crunch::ceil<Float>));
+        namespaceTable.registerFunction("fract", LUANATIC_FUNCTION(&crunch::fract<Vec2>));
         namespaceTable.registerFunction("fract2", LUANATIC_FUNCTION(&crunch::fract<Vec2>));
+        namespaceTable.registerFunction("min", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, const Vec2 &), &crunch::min<Float>));
         namespaceTable.registerFunction("min2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, const Vec2 &), &crunch::min<Float>));
+        namespaceTable.registerFunction("max", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, const Vec2 &), &crunch::max<Float>));
         namespaceTable.registerFunction("max2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, const Vec2 &), &crunch::max<Float>));
+        namespaceTable.registerFunction("clamp", LUANATIC_FUNCTION(&crunch::clamp<Vec2>));
         namespaceTable.registerFunction("clamp2", LUANATIC_FUNCTION(&crunch::clamp<Vec2>));
 
         ClassWrapper<Vec3> vector3CW("Vec3");
         vector3CW.
+        addConstructor<>().
+        addConstructor<Float, Float, Float>().
+        addConstructor<const Vec3 &>().
+        addConstructor<Float>().
         addConstructor("new").
         addConstructor<Float, Float, Float>("fromNumbers").
         addConstructor<const Vec3 &>("copy").
@@ -244,28 +281,53 @@ namespace crunchLua
         addMemberFunction("subtractNumber", LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(Float)const, &Vec3::operator-)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(Float)const, &Vec3::operator*)).
         addMemberFunction("divideByNumber", LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(Float)const, &Vec3::operator/)).
+        addMemberFunction("add", LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(const Vec3 &)const, &Vec3::operator+)).
+        addMemberFunction("subtract", LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(const Vec3 &)const, &Vec3::operator-)).
+        addMemberFunction("multiply", LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(const Vec3 &)const, &Vec3::operator*)).
+        addMemberFunction("divide", LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(const Vec3 &)const, &Vec3::operator/)).
         addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(const Vec3 &)const, &Vec3::operator+)).
         addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(const Vec3 &)const, &Vec3::operator-)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(const Vec3 &)const, &Vec3::operator*)).
-        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(const Vec3 &)const, &Vec3::operator/));
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(const Vec3 &)const, &Vec3::operator/)).
+        addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(Float)const, &Vec3::operator+)).
+        addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(Float)const, &Vec3::operator-)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(Float)const, &Vec3::operator*)).
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Vec3::*)(Float)const, &Vec3::operator/));
 
         namespaceTable.registerClass(vector3CW);
+        namespaceTable.registerFunction("cross", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &, const Vec3 &), &crunch::cross));
         namespaceTable.registerFunction("cross3", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &, const Vec3 &), &crunch::cross));
+        namespaceTable.registerFunction("normalize", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &), &crunch::normalize));
         namespaceTable.registerFunction("normalize3", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &), &crunch::normalize));
+        namespaceTable.registerFunction("dot", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec3 &, const Vec3 &), &crunch::dot));
         namespaceTable.registerFunction("dot3", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec3 &, const Vec3 &), &crunch::dot));
+        namespaceTable.registerFunction("length", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec3 &), &crunch::length));
         namespaceTable.registerFunction("length3", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec3 &), &crunch::length));
+        namespaceTable.registerFunction("distance", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec3 &, const Vec3 &), &crunch::distance));
         namespaceTable.registerFunction("distance3", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec3 &, const Vec3 &), &crunch::distance));
+        namespaceTable.registerFunction("distanceSquared", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec3 &, const Vec3 &), &crunch::distanceSquared));
         namespaceTable.registerFunction("distanceSquared3", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec3 &, const Vec3 &), &crunch::distanceSquared));
+        namespaceTable.registerFunction("abs", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &), &crunch::abs<Float>));
         namespaceTable.registerFunction("abs3", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &), &crunch::abs<Float>));
+        namespaceTable.registerFunction("floor", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &), &crunch::floor<Float>));
         namespaceTable.registerFunction("floor3", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &), &crunch::floor<Float>));
+        namespaceTable.registerFunction("ceil", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &), &crunch::ceil<Float>));
         namespaceTable.registerFunction("ceil3", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &), &crunch::ceil<Float>));
+        namespaceTable.registerFunction("fract", LUANATIC_FUNCTION(&crunch::fract<Vec3>));
         namespaceTable.registerFunction("fract3", LUANATIC_FUNCTION(&crunch::fract<Vec3>));
+        namespaceTable.registerFunction("min", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &, const Vec3 &), &crunch::min<Float>));
         namespaceTable.registerFunction("min3", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &, const Vec3 &), &crunch::min<Float>));
+        namespaceTable.registerFunction("max", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &, const Vec3 &), &crunch::max<Float>));
         namespaceTable.registerFunction("max3", LUANATIC_FUNCTION_OVERLOAD(Vec3(*)(const Vec3 &, const Vec3 &), &crunch::max<Float>));
+        namespaceTable.registerFunction("clamp", LUANATIC_FUNCTION(&crunch::clamp<Vec3>));
         namespaceTable.registerFunction("clamp3", LUANATIC_FUNCTION(&crunch::clamp<Vec3>));
 
         ClassWrapper<Vec4> vector4CW("Vec4");
         vector4CW.
+        addConstructor<>().
+        addConstructor<const Vec4 &>().
+        addConstructor<Float>().
+        addConstructor<Float, Float, Float, Float>().
         addConstructor("new").
         addConstructor<const Vec4 &>("copy").
         addConstructor<Float>("fromNumber").
@@ -280,27 +342,52 @@ namespace crunchLua
         addMemberFunction("subtractNumber", LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator-)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator*)).
         addMemberFunction("divideByNumber", LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator/)).
+        addMemberFunction("add", LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator+)).
+        addMemberFunction("subtract", LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator-)).
+        addMemberFunction("multiply", LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator*)).
+        addMemberFunction("divide", LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator/)).
         addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(const Vec4 &)const, &Vec4::operator+)).
         addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(const Vec4 &)const, &Vec4::operator-)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(const Vec4 &)const, &Vec4::operator*)).
-        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(const Vec4 &)const, &Vec4::operator/));
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(const Vec4 &)const, &Vec4::operator/)).
+        addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator+)).
+        addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator-)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator*)).
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec4(Vec4::*)(Float)const, &Vec4::operator/));
 
         namespaceTable.registerClass(vector4CW);
+        namespaceTable.registerFunction("normalize", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &), &crunch::normalize));
         namespaceTable.registerFunction("normalize4", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &), &crunch::normalize));
+        namespaceTable.registerFunction("dot", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec4 &, const Vec4 &), &crunch::dot));
         namespaceTable.registerFunction("dot4", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec4 &, const Vec4 &), &crunch::dot));
+        namespaceTable.registerFunction("length", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec4 &), &crunch::length));
         namespaceTable.registerFunction("length4", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec4 &), &crunch::length));
+        namespaceTable.registerFunction("distance", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec4 &, const Vec4 &), &crunch::distance));
         namespaceTable.registerFunction("distance4", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec4 &, const Vec4 &), &crunch::distance));
+        namespaceTable.registerFunction("distanceSquared", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec4 &, const Vec4 &), &crunch::distanceSquared));
         namespaceTable.registerFunction("distanceSquared4", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec4 &, const Vec4 &), &crunch::distanceSquared));
+        namespaceTable.registerFunction("abs", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &), &crunch::abs<Float>));
         namespaceTable.registerFunction("abs4", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &), &crunch::abs<Float>));
+        namespaceTable.registerFunction("floor", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &), &crunch::floor<Float>));
         namespaceTable.registerFunction("floor4", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &), &crunch::floor<Float>));
+        namespaceTable.registerFunction("ceil", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &), &crunch::ceil<Float>));
         namespaceTable.registerFunction("ceil4", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &), &crunch::ceil<Float>));
+        namespaceTable.registerFunction("fract", LUANATIC_FUNCTION(&crunch::fract<Vec4>));
         namespaceTable.registerFunction("fract4", LUANATIC_FUNCTION(&crunch::fract<Vec4>));
+        namespaceTable.registerFunction("min", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &, const Vec4 &), &crunch::min<Float>));
         namespaceTable.registerFunction("min4", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &, const Vec4 &), &crunch::min<Float>));
+        namespaceTable.registerFunction("max", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &, const Vec4 &), &crunch::max<Float>));
         namespaceTable.registerFunction("max4", LUANATIC_FUNCTION_OVERLOAD(Vec4(*)(const Vec4 &, const Vec4 &), &crunch::max<Float>));
+        namespaceTable.registerFunction("clamp", LUANATIC_FUNCTION(&crunch::clamp<Vec4>));
         namespaceTable.registerFunction("clamp4", LUANATIC_FUNCTION(&crunch::clamp<Vec4>));
 
         ClassWrapper<Quat> quatCW("Quat");
         quatCW.
+        addConstructor<>().
+        addConstructor<Float, Float, Float, Float>().
+        addConstructor<const Vec4 &>().
+        addConstructor<const Quat &>().
+        addConstructor<const Mat3 &>().
         addConstructor("new").
         addConstructor<Float, Float, Float, Float>("fromNumbers").
         addConstructor<const Vec4 &>("fromVector").
@@ -313,26 +400,44 @@ namespace crunchLua
         addStaticFunction("identity", LUANATIC_FUNCTION(&Quat::identity)).
         addStaticFunction("fromAngleAndAxis", LUANATIC_FUNCTION_OVERLOAD(Quat(*)(Float, const Vec3 &), Quat::rotation)).
         addStaticFunction("fromEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Quat(*)(const Vec3 &), Quat::rotation)).
+        addStaticFunction("fromEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Quat(*)(Float, Float, Float), Quat::rotation)).
+        addStaticFunction("fromEulerAnglesVec", LUANATIC_FUNCTION_OVERLOAD(Quat(*)(const Vec3 &), Quat::rotation)).
         addStaticFunction("fromEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(Quat(*)(Float, Float, Float), Quat::rotation)).
         addMemberFunction(EqualOperatorFlag, LUANATIC_FUNCTION(&Quat::operator==)).
+        addMemberFunction("addNumber", LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(Float)const, &Quat::operator+)).
+        addMemberFunction("addQuat", LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(const Quat &)const, &Quat::operator+)).
+        addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(Float)const, &Quat::operator+)).
         addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(const Quat &)const, &Quat::operator+)).
+        addMemberFunction("subtractNumber", LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(Float)const, &Quat::operator-)).
+        addMemberFunction("subtractQuat", LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(const Quat &)const, &Quat::operator-)).
+        addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(Float)const, &Quat::operator-)).
         addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(const Quat &)const, &Quat::operator-)).
         addMemberFunction("mulitplyByQuat", LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(const Quat &)const, &Quat::operator*)).
-        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Quat::*)(const Vec3 &)const, &Quat::operator*)).
-        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(Float)const, &Quat::operator/)).
+        addMemberFunction("mulitplyByVec", LUANATIC_FUNCTION_OVERLOAD(Vec3(Quat::*)(const Vec3 &)const, &Quat::operator*)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(Float)const, &Quat::operator*)).
-        addMemberFunction("addNumber", LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(Float)const, &Quat::operator+)).
-        addMemberFunction("subtractNumber", LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(Float)const, &Quat::operator-));
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(const Quat &)const, &Quat::operator*)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Quat::*)(const Vec3 &)const, &Quat::operator*)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(Float)const, &Quat::operator*)).
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Quat(Quat::*)(Float)const, &Quat::operator/));
 
         namespaceTable.registerFunction("nmix", LUANATIC_FUNCTION_OVERLOAD(Quat(*)(const Quat &, const Quat &, Float), &crunch::nmix));
         namespaceTable.registerFunction("smix", LUANATIC_FUNCTION(&crunch::smix<Float>));
+        namespaceTable.registerFunction("length", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Quat &), &crunch::length));
         namespaceTable.registerFunction("lengthQ", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Quat &), &crunch::length));
+        namespaceTable.registerFunction("dot", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Quat &, const Quat &), &crunch::dot));
         namespaceTable.registerFunction("dotQ", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Quat &, const Quat &), &crunch::dot));
+        namespaceTable.registerFunction("normalize", LUANATIC_FUNCTION_OVERLOAD(Quat(*)(const Quat &), &crunch::normalize));
         namespaceTable.registerFunction("normalizeQ", LUANATIC_FUNCTION_OVERLOAD(Quat(*)(const Quat &), &crunch::normalize));
+        namespaceTable.registerFunction("mix", LUANATIC_FUNCTION_OVERLOAD(Quat(*)(const Quat &, const Quat &, Float), &crunch::mix));
         namespaceTable.registerFunction("mixQ", LUANATIC_FUNCTION_OVERLOAD(Quat(*)(const Quat &, const Quat &, Float), &crunch::mix));
 
         ClassWrapper<Mat2> matrix2CW("Matrix2");
         matrix2CW.
+        addConstructor<>().
+        addConstructor<const Vec2 &, const Vec2 &>().
+        addConstructor<Float, Float, Float, Float>().
+        addConstructor<Float>().
+        addConstructor<const Mat2 &>().
         addConstructor("new").
         addConstructor<const Vec2 &, const Vec2 &>("fromColumns").
         addConstructor<Float, Float, Float, Float>("fromNumbers").
@@ -343,27 +448,46 @@ namespace crunchLua
         addStaticFunction("rotation", LUANATIC_FUNCTION(&Mat2::rotation)).
         addStaticFunction("scalingFromNumber", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(Float), Mat2::scaling)).
         addStaticFunction("scalingFromNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(Float, Float), Mat2::scaling)).
+        addStaticFunction("scalingFromVec", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(const Vec2 &), Mat2::scaling)).
+        addStaticFunction("scaling", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(Float), Mat2::scaling)).
+        addStaticFunction("scaling", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(Float, Float), Mat2::scaling)).
         addStaticFunction("scaling", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(const Vec2 &), Mat2::scaling)).
         addMemberFunction(EqualOperatorFlag, LUANATIC_FUNCTION(&Mat2::operator==)).
         addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Mat2(Mat2::*)(const Mat2 &)const, &Mat2::operator+)).
         addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Mat2(Mat2::*)(const Mat2 &)const, &Mat2::operator-)).
         addMemberFunction("multiplyByMatrix", LUANATIC_FUNCTION_OVERLOAD(Mat2(Mat2::*)(const Mat2 &)const, &Mat2::operator*)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat2(Mat2::*)(Float)const, &Mat2::operator*)).
+        addMemberFunction("multiplyByVec", LUANATIC_FUNCTION_OVERLOAD(Vec2(Mat2::*)(const Vec2 &)const, &Mat2::operator*)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Mat2(Mat2::*)(const Mat2 &)const, &Mat2::operator*)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Mat2(Mat2::*)(Float)const, &Mat2::operator*)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec2(Mat2::*)(const Vec2 &)const, &Mat2::operator*)).
         addMemberFunction("element", LUANATIC_FUNCTION_OVERLOAD(const Float & (Mat2::*)(UInt32, UInt32) const, &Mat2::element)).
-        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat2&(Mat2::*)(Float), &Mat2::scale)).
-        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat2&(Mat2::*)(Float, Float), &Mat2::scale)).
-        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat2&(Mat2::*)(const Vec2 &), &Mat2::scale)).
-        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat2&(Mat2::*)(Float), &Mat2::rotate));
+        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat2 & (Mat2::*)(Float), &Mat2::scale)).
+        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat2 & (Mat2::*)(Float, Float), &Mat2::scale)).
+        addMemberFunction("scaleByVec", LUANATIC_FUNCTION_OVERLOAD(Mat2 & (Mat2::*)(const Vec2 &), &Mat2::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat2 & (Mat2::*)(Float), &Mat2::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat2 & (Mat2::*)(Float, Float), &Mat2::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat2 & (Mat2::*)(const Vec2 &), &Mat2::scale)).
+        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat2 & (Mat2::*)(Float), &Mat2::rotate));
 
         namespaceTable.registerClass(matrix2CW);
+        namespaceTable.registerFunction("transpose", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(const Mat2 &), &crunch::transpose));
         namespaceTable.registerFunction("transpose2", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(const Mat2 &), &crunch::transpose));
         namespaceTable.registerFunction("determinant2", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Mat2 &), &crunch::determinant));
+        namespaceTable.registerFunction("determinant2", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Mat2 &), &crunch::determinant));
+        namespaceTable.registerFunction("adjoint", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(const Mat2 &), &crunch::adjoint));
         namespaceTable.registerFunction("adjoint2", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(const Mat2 &), &crunch::adjoint));
+        namespaceTable.registerFunction("inverse", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(const Mat2 &), &crunch::inverse));
         namespaceTable.registerFunction("inverse2", LUANATIC_FUNCTION_OVERLOAD(Mat2(*)(const Mat2 &), &crunch::inverse));
 
         ClassWrapper<Mat3> matrix3CW("Mat3");
         matrix3CW.
+        addConstructor<>().
+        addConstructor<const Vec3 &, const Vec3 &, const Vec3 &>().
+        addConstructor<Float, Float, Float, Float, Float, Float, Float, Float, Float>().
+        addConstructor<Float>().
+        addConstructor<const Mat3 &>().
+        addConstructor<const Quat &>().
         addConstructor("new").
         addConstructor<const Vec3 &, const Vec3 &, const Vec3 &>("fromColumns").
         addConstructor<Float, Float, Float, Float, Float, Float, Float, Float, Float>("fromNumbers").
@@ -372,44 +496,76 @@ namespace crunchLua
         addConstructor<const Quat &>("fromQuat").
         addStaticFunction("identity", LUANATIC_FUNCTION(&Mat3::identity)).
         addStaticFunction("zero", LUANATIC_FUNCTION(&Mat3::zero)).
-        addStaticFunction("translation2D", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(const Vec2 &), &Mat3::translation2D)).
+        addStaticFunction("translation2DFromVec", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(const Vec2 &), &Mat3::translation2D)).
         addStaticFunction("translation2DFromNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(Float, Float), &Mat3::translation2D)).
+        addStaticFunction("translation2D", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(const Vec2 &), &Mat3::translation2D)).
+        addStaticFunction("translation2D", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(Float, Float), &Mat3::translation2D)).
         addStaticFunction("fromAngleAndAxis", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(Float, const Vec3 &), &Mat3::rotation)).
+        addStaticFunction("fromEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(Float, Float, Float), &Mat3::rotation)).
+        addStaticFunction("fromEulerAnglesVec", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(const Vec3 &), &Mat3::rotation)).
         addStaticFunction("fromEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(Float, Float, Float), &Mat3::rotation)).
-        addStaticFunction("fromEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(const Vec3 &), &Mat3::rotation)).
+        addStaticFunction("fromEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(const Vec3 &), &Mat3::rotation)).
         addStaticFunction("scalingFromNumber", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(Float), &Mat3::scaling)).
-        addStaticFunction("scaling", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(const Vec3 &), &Mat3::scaling)).
+        addStaticFunction("scalingFromVec", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(const Vec3 &), &Mat3::scaling)).
         addStaticFunction("scalingFromNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(Float, Float, Float), &Mat3::scaling)).
+        addStaticFunction("scaling", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(Float), &Mat3::scaling)).
+        addStaticFunction("scaling", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(const Vec3 &), &Mat3::scaling)).
+        addStaticFunction("scaling", LUANATIC_FUNCTION_OVERLOAD(Mat3(*)(Float, Float, Float), &Mat3::scaling)).
         addMemberFunction(EqualOperatorFlag, LUANATIC_FUNCTION(&Mat3::operator==)).
         addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Mat3(Mat3::*)(const Mat3 &)const, &Mat3::operator+)).
         addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Mat3(Mat3::*)(const Mat3 &)const, &Mat3::operator-)).
         addMemberFunction("multiplyByMatrix", LUANATIC_FUNCTION_OVERLOAD(Mat3(Mat3::*)(const Mat3 &)const, &Mat3::operator*)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat3(Mat3::*)(Float)const, &Mat3::operator*)).
+        addMemberFunction("multiplyByVec", LUANATIC_FUNCTION_OVERLOAD(Vec3(Mat3::*)(const Vec3 &)const, &Mat3::operator*)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Mat3(Mat3::*)(const Mat3 &)const, &Mat3::operator*)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Mat3(Mat3::*)(Float)const, &Mat3::operator*)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Mat3::*)(const Vec3 &)const, &Mat3::operator*)).
         //addMemberFunction(ToStringFlag, detail::luaToStringHelper<Mat3>).
         addMemberFunction("element", LUANATIC_FUNCTION_OVERLOAD(const Float & (Mat3::*)(UInt32, UInt32) const, &Mat3::element)).
-        addMemberFunction("translate2DByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float, Float), &Mat3::translate2D)).
-        addMemberFunction("translate2D", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(const Vec2 &), &Mat3::translate2D)).
-        addMemberFunction("scale2DByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float), &Mat3::scale2D)).
-        addMemberFunction("scale2DByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float, Float), &Mat3::scale2D)).
-        addMemberFunction("scale2D", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(const Vec2 &), &Mat3::scale2D)).
-        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float), &Mat3::scale)).
-        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float, Float, Float), &Mat3::scale)).
-        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(const Vec3 &), &Mat3::scale)).
+        addMemberFunction("translate2DByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float, Float), &Mat3::translate2D)).
+        addMemberFunction("translate2DByVec", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(const Vec2 &), &Mat3::translate2D)).
+        addMemberFunction("translate2D", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float, Float), &Mat3::translate2D)).
+        addMemberFunction("translate2D", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(const Vec2 &), &Mat3::translate2D)).
+        addMemberFunction("scale2DByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float), &Mat3::scale2D)).
+        addMemberFunction("scale2DByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float, Float), &Mat3::scale2D)).
+        addMemberFunction("scale2DByVec", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(const Vec2 &), &Mat3::scale2D)).
+        addMemberFunction("scale2D", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float), &Mat3::scale2D)).
+        addMemberFunction("scale2D", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float, Float), &Mat3::scale2D)).
+        addMemberFunction("scale2D", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(const Vec2 &), &Mat3::scale2D)).
+        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float), &Mat3::scale)).
+        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float, Float, Float), &Mat3::scale)).
+        addMemberFunction("scaleByVec", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(const Vec3 &), &Mat3::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float), &Mat3::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float, Float, Float), &Mat3::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(const Vec3 &), &Mat3::scale)).
         addMemberFunction("rotate2D", LUANATIC_FUNCTION(&Mat3::rotate2D)).
-        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float, const Vec3 &), &Mat3::rotate)).
-        addMemberFunction("rotateByEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(Float, Float, Float), &Mat3::rotate)).
-        addMemberFunction("rotateByQuaternion", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(const Quat &), &Mat3::rotate)).
-        addMemberFunction("rotateByEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat3&(Mat3::*)(const Vec3 &), &Mat3::rotate));
+        addMemberFunction("rotateByQuaternion", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(const Quat &), &Mat3::rotate)).
+        addMemberFunction("rotateByAngleAndAxis", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float, const Vec3 &), &Mat3::rotate)).
+        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(const Quat &), &Mat3::rotate)).
+        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float, const Vec3 &), &Mat3::rotate)).
+        addMemberFunction("rotateByEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float, Float, Float), &Mat3::rotate)).
+        addMemberFunction("rotateByEulerAnglesVec", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(const Vec3 &), &Mat3::rotate)).
+        addMemberFunction("rotateByEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(Float, Float, Float), &Mat3::rotate)).
+        addMemberFunction("rotateByEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat3 & (Mat3::*)(const Vec3 &), &Mat3::rotate));
 
         namespaceTable.registerClass(matrix3CW);
+        namespaceTable.registerFunction("transpose", LUANATIC_FUNCTION_OVERLOAD(Mat3f(*)(const Mat3f &), &crunch::transpose));
         namespaceTable.registerFunction("transpose3", LUANATIC_FUNCTION_OVERLOAD(Mat3f(*)(const Mat3f &), &crunch::transpose));
+        namespaceTable.registerFunction("determinant", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Mat3f &), &crunch::determinant));
         namespaceTable.registerFunction("determinant3", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Mat3f &), &crunch::determinant));
+        namespaceTable.registerFunction("adjoint", LUANATIC_FUNCTION_OVERLOAD(Mat3f(*)(const Mat3f &), &crunch::adjoint));
         namespaceTable.registerFunction("adjoint3", LUANATIC_FUNCTION_OVERLOAD(Mat3f(*)(const Mat3f &), &crunch::adjoint));
+        namespaceTable.registerFunction("inverse", LUANATIC_FUNCTION_OVERLOAD(Mat3f(*)(const Mat3f &), &crunch::inverse));
         namespaceTable.registerFunction("inverse3", LUANATIC_FUNCTION_OVERLOAD(Mat3f(*)(const Mat3f &), &crunch::inverse));
 
         ClassWrapper<Mat4> matrix4CW("Mat4");
         matrix4CW.
+        addConstructor<>().
+        addConstructor<const Vec4 &, const Vec4 &, const Vec4 &, const Vec4 &>().
+        addConstructor<Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float>().
+        addConstructor<const Mat4 &>().
+        addConstructor<const Quat &>().
+        addConstructor<Float>().
         addConstructor("new").
         addConstructor<const Vec4 &, const Vec4 &, const Vec4 &, const Vec4 &>("fromColumns").
         addConstructor<Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float>("fromNumbers").
@@ -418,14 +574,21 @@ namespace crunchLua
         addConstructor<Float>("fromNumber").
         addStaticFunction("identity", LUANATIC_FUNCTION(&Mat4::identity)).
         addStaticFunction("zero", LUANATIC_FUNCTION(&Mat4::zero)).
-        addStaticFunction("translation", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(const Vec3 &), &Mat4::translation)).
+        addStaticFunction("translationFromVec", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(const Vec3 &), &Mat4::translation)).
         addStaticFunction("translationFromNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(Float, Float, Float), &Mat4::translation)).
+        addStaticFunction("translation", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(const Vec3 &), &Mat4::translation)).
+        addStaticFunction("translation", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(Float, Float, Float), &Mat4::translation)).
         addStaticFunction("scalingFromNumber", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(Float), &Mat4::scaling)).
         addStaticFunction("scalingFromNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(Float, Float, Float), &Mat4::scaling)).
+        addStaticFunction("scalingFromVec", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(const Vec3 &), Mat4::scaling)).
+        addStaticFunction("scaling", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(Float), &Mat4::scaling)).
+        addStaticFunction("scaling", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(Float, Float, Float), &Mat4::scaling)).
         addStaticFunction("scaling", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(const Vec3 &), Mat4::scaling)).
         addStaticFunction("fromAngleAndAxis", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(Float, const Vec3 &), &Mat4::rotation)).
-        addStaticFunction("fromEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(const Vec3 &), &Mat4::rotation)).
+        addStaticFunction("fromEulerAnglesVec", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(const Vec3 &), &Mat4::rotation)).
         addStaticFunction("fromEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(Float, Float, Float), &Mat4::rotation)).
+        addStaticFunction("fromEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(const Vec3 &), &Mat4::rotation)).
+        addStaticFunction("fromEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(Float, Float, Float), &Mat4::rotation)).
         addStaticFunction("ortho", LUANATIC_FUNCTION(&Mat4::ortho)).
         addStaticFunction("frustum", LUANATIC_FUNCTION(&Mat4::frustum)).
         addStaticFunction("perspective", LUANATIC_FUNCTION(&Mat4::perspective)).
@@ -436,18 +599,30 @@ namespace crunchLua
         addMemberFunction("multiplyByMatrix", LUANATIC_FUNCTION_OVERLOAD(Mat4(Mat4::*)(const Mat4 &)const, &Mat4::operator*)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat4(Mat4::*)(Float)const, &Mat4::operator*)).
         addMemberFunction("multiplyByVec4", LUANATIC_FUNCTION_OVERLOAD(Vec4(Mat4::*)(const Vec4 &)const, &Mat4::operator*)).
+        addMemberFunction("multiplyByVec3", LUANATIC_FUNCTION_OVERLOAD(Vec3(Mat4::*)(const Vec3 &)const, &Mat4::operator*)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Mat4(Mat4::*)(const Mat4 &)const, &Mat4::operator*)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Mat4(Mat4::*)(Float)const, &Mat4::operator*)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec4(Mat4::*)(const Vec4 &)const, &Mat4::operator*)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(Vec3(Mat4::*)(const Vec3 &)const, &Mat4::operator*)).
         //addMemberFunction(ToStringFlag, detail::luaToStringHelper<Mat4>).
         addMemberFunction("element", LUANATIC_FUNCTION_OVERLOAD(const Float & (Mat4::*)(UInt32, UInt32) const, &Mat4::element)).
-        addMemberFunction("translateByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(Float, Float, Float), &Mat4::translate)).
-        addMemberFunction("translate", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(const Vec3 &), &Mat4::translate)).
-        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(Float), &Mat4::scale)).
-        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(Float, Float, Float), &Mat4::scale)).
-        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(const Vec3 &), &Mat4::scale)).
-        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(Float, const Vec3 &), &Mat4::rotate)).
-        addMemberFunction("rotateByEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(const Vec3 &), &Mat4::rotate)).
-        addMemberFunction("rotateByEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(Float, Float, Float), &Mat4::rotate)).
-        addMemberFunction("rotateByQuat", LUANATIC_FUNCTION_OVERLOAD(Mat4&(Mat4::*)(const Quat &), &Mat4::rotate));
+        addMemberFunction("translateByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(Float, Float, Float), &Mat4::translate)).
+        addMemberFunction("translateByVec3", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(const Vec3 &), &Mat4::translate)).
+        addMemberFunction("translate", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(Float, Float, Float), &Mat4::translate)).
+        addMemberFunction("translate", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(const Vec3 &), &Mat4::translate)).
+        addMemberFunction("scaleByNumber", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(Float), &Mat4::scale)).
+        addMemberFunction("scaleByNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(Float, Float, Float), &Mat4::scale)).
+        addMemberFunction("scaleByVec3", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(const Vec3 &), &Mat4::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(Float), &Mat4::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(Float, Float, Float), &Mat4::scale)).
+        addMemberFunction("scale", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(const Vec3 &), &Mat4::scale)).
+        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(Float, const Vec3 &), &Mat4::rotate)).
+        addMemberFunction("rotateByEulerAnglesVec3", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(const Vec3 &), &Mat4::rotate)).
+        addMemberFunction("rotateByEulerAnglesNumbers", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(Float, Float, Float), &Mat4::rotate)).
+        addMemberFunction("rotateByEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(const Vec3 &), &Mat4::rotate)).
+        addMemberFunction("rotateByEulerAngles", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(Float, Float, Float), &Mat4::rotate)).
+        addMemberFunction("rotateByQuat", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(const Quat &), &Mat4::rotate)).
+        addMemberFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Mat4 & (Mat4::*)(const Quat &), &Mat4::rotate));
 
         namespaceTable.registerClass(matrix4CW);
         namespaceTable.registerFunction("transpose", LUANATIC_FUNCTION_OVERLOAD(Mat4(*)(const Mat4 &), &crunch::transpose));
@@ -462,6 +637,10 @@ namespace crunchLua
         ClassWrapper<ColorRGB> colRGBCW("ColorRGB");
         colRGBCW.
         addCast<crunch::detail::RGB<Float> >().
+        addConstructor<>().
+        addConstructor<Float>().
+        addConstructor<Float, Float, Float>().
+        addConstructor<const ColorRGB &>().
         addConstructor("new").
         addConstructor<Float>("fromNumber").
         addConstructor<Float, Float, Float>("fromNumbers").
@@ -478,6 +657,14 @@ namespace crunchLua
         addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(const ColorRGB &)const, &ColorRGB::operator-)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(const ColorRGB &)const, &ColorRGB::operator*)).
         addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(const ColorRGB &)const, &ColorRGB::operator/)).
+        addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(Float)const, &ColorRGB::operator+)).
+        addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(Float)const, &ColorRGB::operator-)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(Float)const, &ColorRGB::operator*)).
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(Float)const, &ColorRGB::operator/)).
+        addMemberFunction("add", LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(const ColorRGB &)const, &ColorRGB::operator+)).
+        addMemberFunction("subtract", LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(const ColorRGB &)const, &ColorRGB::operator-)).
+        addMemberFunction("multiply", LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(const ColorRGB &)const, &ColorRGB::operator*)).
+        addMemberFunction("divide", LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(const ColorRGB &)const, &ColorRGB::operator/)).
         addMemberFunction("addNumber", LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(Float)const, &ColorRGB::operator+)).
         addMemberFunction("subtractNumber", LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(Float)const, &ColorRGB::operator-)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(ColorRGB(ColorRGB::*)(Float)const, &ColorRGB::operator*)).
@@ -488,6 +675,9 @@ namespace crunchLua
         ClassWrapper<ColorRGBA> colRGBACW("ColorRGBA");
         colRGBACW.
         addCast<crunch::detail::RGBA<Float> >().
+        addConstructor<>().
+        addConstructor<Float, Float, Float, Float>().
+        addConstructor<const ColorRGBA &>().
         addConstructor("new").
         addConstructor<Float, Float, Float, Float>("fromNumbers").
         addConstructor<const ColorRGBA &>("copy").
@@ -504,6 +694,14 @@ namespace crunchLua
         addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(const ColorRGBA &)const, &ColorRGBA::operator-)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(const ColorRGBA &)const, &ColorRGBA::operator*)).
         addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(const ColorRGBA &)const, &ColorRGBA::operator/)).
+        addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(Float)const, &ColorRGBA::operator+)).
+        addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(Float)const, &ColorRGBA::operator-)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(Float)const, &ColorRGBA::operator*)).
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(Float)const, &ColorRGBA::operator/)).
+        addMemberFunction("add", LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(const ColorRGBA &)const, &ColorRGBA::operator+)).
+        addMemberFunction("subtract", LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(const ColorRGBA &)const, &ColorRGBA::operator-)).
+        addMemberFunction("multiply", LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(const ColorRGBA &)const, &ColorRGBA::operator*)).
+        addMemberFunction("divide", LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(const ColorRGBA &)const, &ColorRGBA::operator/)).
         addMemberFunction("addNumber", LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(Float)const, &ColorRGBA::operator+)).
         addMemberFunction("subtractNumber", LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(Float)const, &ColorRGBA::operator-)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(ColorRGBA(ColorRGBA::*)(Float)const, &ColorRGBA::operator*)).
@@ -514,6 +712,10 @@ namespace crunchLua
         ClassWrapper<ColorHSB> colHSBCW("ColorHSB");
         colHSBCW.
         addCast<crunch::detail::HSB<Float> >().
+        addConstructor<>().
+        addConstructor<Float>().
+        addConstructor<Float, Float, Float>().
+        addConstructor<const ColorHSB &>().
         addConstructor("new").
         addConstructor<Float>("fromNumber").
         addConstructor<Float, Float, Float>("fromNumbers").
@@ -530,6 +732,14 @@ namespace crunchLua
         addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(const ColorHSB &)const, &ColorHSB::operator-)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(const ColorHSB &)const, &ColorHSB::operator*)).
         addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(const ColorHSB &)const, &ColorHSB::operator/)).
+        addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(Float)const, &ColorHSB::operator+)).
+        addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(Float)const, &ColorHSB::operator-)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(Float)const, &ColorHSB::operator*)).
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(Float)const, &ColorHSB::operator/)).
+        addMemberFunction("add", LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(const ColorHSB &)const, &ColorHSB::operator+)).
+        addMemberFunction("subtract", LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(const ColorHSB &)const, &ColorHSB::operator-)).
+        addMemberFunction("multiply", LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(const ColorHSB &)const, &ColorHSB::operator*)).
+        addMemberFunction("divide", LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(const ColorHSB &)const, &ColorHSB::operator/)).
         addMemberFunction("addNumber", LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(Float)const, &ColorHSB::operator+)).
         addMemberFunction("subtractNumber", LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(Float)const, &ColorHSB::operator-)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(ColorHSB(ColorHSB::*)(Float)const, &ColorHSB::operator*)).
@@ -540,6 +750,9 @@ namespace crunchLua
         ClassWrapper<ColorHSBA> colHSBACW("ColorHSBA");
         colHSBACW.
         addCast<crunch::detail::HSBA<Float> >().
+        addConstructor<>().
+        addConstructor<Float, Float, Float, Float>().
+        addConstructor<const ColorHSBA &>().
         addConstructor("new").
         addConstructor<Float, Float, Float, Float>("fromNumbers").
         addConstructor<const ColorHSBA &>("copy").
@@ -556,6 +769,14 @@ namespace crunchLua
         addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(const ColorHSBA &)const, &ColorHSBA::operator-)).
         addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(const ColorHSBA &)const, &ColorHSBA::operator*)).
         addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(const ColorHSBA &)const, &ColorHSBA::operator/)).
+        addMemberFunction(AdditionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(Float)const, &ColorHSBA::operator+)).
+        addMemberFunction(SubtractionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(Float)const, &ColorHSBA::operator-)).
+        addMemberFunction(MultiplicationOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(Float)const, &ColorHSBA::operator*)).
+        addMemberFunction(DivisionOperatorFlag, LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(Float)const, &ColorHSBA::operator/)).
+        addMemberFunction("add", LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(const ColorHSBA &)const, &ColorHSBA::operator+)).
+        addMemberFunction("subtract", LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(const ColorHSBA &)const, &ColorHSBA::operator-)).
+        addMemberFunction("multiply", LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(const ColorHSBA &)const, &ColorHSBA::operator*)).
+        addMemberFunction("divide", LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(const ColorHSBA &)const, &ColorHSBA::operator/)).
         addMemberFunction("addNumber", LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(Float)const, &ColorHSBA::operator+)).
         addMemberFunction("subtractNumber", LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(Float)const, &ColorHSBA::operator-)).
         addMemberFunction("multiplyByNumber", LUANATIC_FUNCTION_OVERLOAD(ColorHSBA(ColorHSBA::*)(Float)const, &ColorHSBA::operator*)).
@@ -565,6 +786,11 @@ namespace crunchLua
 
         ClassWrapper<Rect> rectangleCW("Rect");
         rectangleCW.
+        addConstructor<>().
+        addConstructor<Float, Float, Float, Float>().
+        addConstructor<const Vec2 &, const Vec2 &>().
+        addConstructor<const Vec2 &, Float, Float>().
+        addConstructor<const Rect &>().
         addConstructor("new").
         addConstructor<Float, Float, Float, Float>("fromMinMaxNumbers").
         addConstructor<const Vec2 &, const Vec2 &>("fromMinMax").
@@ -573,15 +799,27 @@ namespace crunchLua
         addMemberFunction(EqualOperatorFlag, LUANATIC_FUNCTION(&Rect::operator==)).
         addMemberFunction("containsRect", LUANATIC_FUNCTION_OVERLOAD(bool(Rect::*)(const Rect &)const, &Rect::contains)).
         addMemberFunction("containsPoint", LUANATIC_FUNCTION_OVERLOAD(bool(Rect::*)(const Vec2 &)const, &Rect::contains)).
+        addMemberFunction("contains", LUANATIC_FUNCTION_OVERLOAD(bool(Rect::*)(const Rect &)const, &Rect::contains)).
+        addMemberFunction("contains", LUANATIC_FUNCTION_OVERLOAD(bool(Rect::*)(const Vec2 &)const, &Rect::contains)).
         addMemberFunction("setSizeFromNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(Float, Float), &Rect::setSize)).
+        addMemberFunction("setSizeFromVec2", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(const Vec2 &), &Rect::setSize)).
+        addMemberFunction("setSize", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(Float, Float), &Rect::setSize)).
         addMemberFunction("setSize", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(const Vec2 &), &Rect::setSize)).
         addMemberFunction("setPositionFromNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(Float, Float), &Rect::setPosition)).
+        addMemberFunction("setPositionFromVec2", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(const Vec2 &), &Rect::setPosition)).
+        addMemberFunction("setPosition", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(Float, Float), &Rect::setPosition)).
         addMemberFunction("setPosition", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(const Vec2 &), &Rect::setPosition)).
         addMemberFunction("moveByNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(Float, Float), &Rect::moveBy)).
+        addMemberFunction("moveByVec2", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(const Vec2 &), &Rect::moveBy)).
+        addMemberFunction("moveBy", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(Float, Float), &Rect::moveBy)).
         addMemberFunction("moveBy", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(const Vec2 &), &Rect::moveBy)).
         addMemberFunction("setMinFromNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(Float, Float), &Rect::setMin)).
+        addMemberFunction("setMinFromVec2", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(const Vec2 &), &Rect::setMin)).
+        addMemberFunction("setMin", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(Float, Float), &Rect::setMin)).
         addMemberFunction("setMin", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(const Vec2 &), &Rect::setMin)).
         addMemberFunction("setMaxFromNumbers", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(Float, Float), &Rect::setMax)).
+        addMemberFunction("setMaxFromVec2", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(const Vec2 &), &Rect::setMax)).
+        addMemberFunction("setMax", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(Float, Float), &Rect::setMax)).
         addMemberFunction("setMax", LUANATIC_FUNCTION_OVERLOAD(void(Rect::*)(const Vec2 &), &Rect::setMax)).
         addMemberFunction("area", LUANATIC_FUNCTION(&Rect::area)).
         addMemberFunction("min", LUANATIC_FUNCTION_OVERLOAD(const Vec2 & (Rect::*)(void)const, &Rect::min)).
@@ -595,6 +833,9 @@ namespace crunchLua
 
         ClassWrapper<Line2> line2CW("Line2");
         line2CW.
+        addConstructor<>().
+        addConstructor<const Vec2 &, const Vec2 &>().
+        addConstructor<const Line2 &>().
         addConstructor("new").
         addConstructor<const Vec2 &, const Vec2 &>("fromPointAndDirection").
         addConstructor<const Line2 &>("copy").
@@ -607,6 +848,9 @@ namespace crunchLua
 
         ClassWrapper<Line3> line3CW("Line3");
         line3CW.
+        addConstructor<>().
+        addConstructor<const Vec3 &, const Vec3 &>().
+        addConstructor<const Line3 &>().
         addConstructor("new").
         addConstructor<const Vec3 &, const Vec3 &>("fromPointAndDirection").
         addConstructor<const Line3 &>("copy").
@@ -618,6 +862,9 @@ namespace crunchLua
 
         ClassWrapper<LineSegment2> lineSegment2CW("LineSegment2");
         lineSegment2CW.
+        addConstructor<>().
+        addConstructor<const Vec2 &, const Vec2 &>().
+        addConstructor<const LineSegment2 &>().
         addConstructor("new").
         addConstructor<const Vec2 &, const Vec2 &>("fromPoints").
         addConstructor<const LineSegment2 &>("copy").
@@ -638,6 +885,9 @@ namespace crunchLua
         ClassWrapper<Circle> circleCW("Circle");
 
         circleCW.
+        addConstructor<>().
+        addConstructor<const Vec2 &, Float32>().
+        addConstructor<const Circle &>().
         addConstructor("new").
         addConstructor<const Vec2 &, Float32>("fromPositionAndRadius").
         addConstructor<const Circle &>("copy").
@@ -655,6 +905,8 @@ namespace crunchLua
         ClassWrapper<TweenLinearEaseOutf> tweenLinearEaseOutfCW("TweenLinearEaseOut");
 
         tweenLinearEaseOutfCW.
+        addConstructor<>().
+        addConstructor<const Float32 &, const Float32 &, Float64>().
         addConstructor("new").
         addConstructor<const Float32 &, const Float32 &, Float64>("fromValues").
         addMemberFunction("update", LUANATIC_FUNCTION(&TweenLinearEaseOutf::update)).
@@ -671,6 +923,8 @@ namespace crunchLua
         ClassWrapper<TweenLinearEaseOut2f> tweenLinearEaseOut2fCW("TweenLinearEaseOut2");
 
         tweenLinearEaseOut2fCW.
+        addConstructor<>().
+        addConstructor<const Vec2f &, const Vec2f &, Float64>().
         addConstructor("new").
         addConstructor<const Vec2f &, const Vec2f &, Float64>("fromValues").
         addMemberFunction("update", LUANATIC_FUNCTION(&TweenLinearEaseOut2f::update)).
@@ -687,6 +941,8 @@ namespace crunchLua
         ClassWrapper<TweenCubicEaseOutf> tweenCubicEaseOutfCW("TweenCubicEaseOut");
 
         tweenCubicEaseOutfCW.
+        addConstructor<>().
+        addConstructor<const Float32 &, const Float32 &, Float64>().
         addConstructor("new").
         addConstructor<const Float32 &, const Float32 &, Float64>("fromValues").
         addMemberFunction("update", LUANATIC_FUNCTION(&TweenCubicEaseOutf::update)).
@@ -703,6 +959,8 @@ namespace crunchLua
         ClassWrapper<TweenCubicEaseInf> tweenCubicEaseInCW("TweenCubicEaseIn");
 
         tweenCubicEaseInCW.
+        addConstructor<>().
+        addConstructor<const Float32 &, const Float32 &, Float64>().
         addConstructor("new").
         addConstructor<const Float32 &, const Float32 &, Float64>("fromValues").
         addMemberFunction("update", LUANATIC_FUNCTION(&TweenCubicEaseInf::update)).
@@ -719,6 +977,8 @@ namespace crunchLua
         ClassWrapper<TweenCubicEaseInOutf> tweenCubicEaseInOutfCW("TweenCubicEaseInOut");
 
         tweenCubicEaseInOutfCW.
+        addConstructor<>().
+        addConstructor<const Float32 &, const Float32 &, Float64>().
         addConstructor("new").
         addConstructor<const Float32 &, const Float32 &, Float64>("fromValues").
         addMemberFunction("update", LUANATIC_FUNCTION(&TweenCubicEaseInOutf::update)).
@@ -735,6 +995,8 @@ namespace crunchLua
         ClassWrapper<TweenCubicEaseOut2f> tweenCubicEaseOut2fCW("TweenCubicEaseOut2");
 
         tweenCubicEaseOut2fCW.
+        addConstructor<>().
+        addConstructor<const Vec2f &, const Vec2f &, Float64>().
         addConstructor("new").
         addConstructor<const Vec2f &, const Vec2f &, Float64>("fromValues").
         addMemberFunction("update", LUANATIC_FUNCTION(&TweenCubicEaseOut2f::update)).
@@ -751,6 +1013,8 @@ namespace crunchLua
         ClassWrapper<TweenElasticEaseOutf> tweenElastiEaseOutfCW("TweenElasticEaseOut");
 
         tweenElastiEaseOutfCW.
+        addConstructor<>().
+        addConstructor<const Float32 &, const Float32 &, Float64>().
         addConstructor("new").
         addConstructor<const Float32 &, const Float32 &, Float64>("fromValues").
         addMemberFunction("update", LUANATIC_FUNCTION(&TweenElasticEaseOutf::update)).
@@ -767,6 +1031,8 @@ namespace crunchLua
         ClassWrapper<TweenElasticEaseOut2f> tweenElastiEaseOut2fCW("TweenElasticEaseOut2");
 
         tweenElastiEaseOut2fCW.
+        addConstructor<>().
+        addConstructor<const Vec2f &, const Vec2f &, Float64>().
         addConstructor("new").
         addConstructor<const Vec2f &, const Vec2f &, Float64>("fromValues").
         addMemberFunction("update", LUANATIC_FUNCTION(&TweenElasticEaseOut2f::update)).
