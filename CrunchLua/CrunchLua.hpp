@@ -61,27 +61,56 @@ namespace crunchLua
             return 1;
         }
 
-        static Int32 luaRandom(lua_State * _luaState)
+        static crunch::Randomizer & luaRandomNumberGenerator()
         {
             static crunch::Randomizer s_luaRandomNumbers;
+            return s_luaRandomNumbers;
+        }
+
+        static Int32 luaRandom(lua_State * _luaState)
+        {
+            // lua_getfield(_luaState, LUA_REGISTRYINDEX, LUANATIC_KEY);
+            // STICK_ASSERT(lua_istable(_luaState, -1));
+            // lua_getfield(_luaState, -1, "crunch");
+            // if(lua_isnil(_luaState, -1))
+            // {
+            //     lua_pop(_state, 1);
+            //     lua_newtable(_luaState);
+            //     lua_pushvalue(_luaState, -1);
+            //     lua_setfield(_luaState, -3, "crunch");
+            // }
+
+            crunch::Randomizer & rnd = luaRandomNumberGenerator();
             if (lua_isnil(_luaState, 1))
             {
-                lua_pushnumber(_luaState, s_luaRandomNumbers.randomd());
+                lua_pushnumber(_luaState, rnd.randomd());
             }
             else
             {
                 Float64 num = luaL_checknumber(_luaState, 1);
                 if (lua_isnumber(_luaState, 2))
                 {
-                    lua_pushnumber(_luaState, s_luaRandomNumbers.randomd(num, lua_tonumber(_luaState, 2)));
+                    lua_pushnumber(_luaState, rnd.randomd(num, lua_tonumber(_luaState, 2)));
                 }
                 else
                 {
-                    lua_pushnumber(_luaState, s_luaRandomNumbers.randomd(num));
+                    lua_pushnumber(_luaState, rnd.randomd(num));
                 }
             }
 
             return 1;
+        }
+
+        static Int32 luaRandomSeed(lua_State * _luaState)
+        {
+            luaRandomNumberGenerator().setSeed(luaL_checkinteger(_luaState, 1));
+            return 0;
+        }
+
+        static Int32 luaRandomizeSeed(lua_State * _luaState)
+        {
+            luaRandomNumberGenerator().randomizeSeed();
+            return 0;
         }
 
         static Int32 luaNoise(lua_State * _luaState)
@@ -877,6 +906,8 @@ namespace crunchLua
 
 
         namespaceTable.registerFunction("random", detail::luaRandom);
+        namespaceTable.registerFunction("randomSeed", detail::luaRandomSeed);
+        namespaceTable.registerFunction("randomizeSeed", detail::luaRandomizeSeed);
         namespaceTable.registerFunction("noise", detail::luaNoise);
         namespaceTable.registerFunction("toRadians", LUANATIC_FUNCTION(&crunch::toRadians<Float>));
         namespaceTable.registerFunction("toDegrees", LUANATIC_FUNCTION(&crunch::toDegrees<Float>));
