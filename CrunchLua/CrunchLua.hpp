@@ -268,6 +268,8 @@ namespace crunchLua
         namespaceTable.registerFunction("normalize2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &), &crunch::normalize));
         namespaceTable.registerFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, Float), &crunch::rotate));
         namespaceTable.registerFunction("rotate2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, Float), &crunch::rotate));
+        namespaceTable.registerFunction("rotate", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, const Vec2 &, Float), &crunch::rotate));
+        namespaceTable.registerFunction("rotateAround2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, const Vec2 &, Float), &crunch::rotate));
         namespaceTable.registerFunction("dot", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &, const Vec2 &), &crunch::dot));
         namespaceTable.registerFunction("dot2", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &, const Vec2 &), &crunch::dot));
         namespaceTable.registerFunction("length", LUANATIC_FUNCTION_OVERLOAD(Float(*)(const Vec2 &), &crunch::length));
@@ -290,6 +292,8 @@ namespace crunchLua
         namespaceTable.registerFunction("max2", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2 &, const Vec2 &), &crunch::max<Float>));
         namespaceTable.registerFunction("clamp", LUANATIC_FUNCTION(&crunch::clamp<Vec2>));
         namespaceTable.registerFunction("clamp2", LUANATIC_FUNCTION(&crunch::clamp<Vec2>));
+        namespaceTable.registerFunction("reflect", LUANATIC_FUNCTION_OVERLOAD(Vec2(*)(const Vec2&, const Vec2&), &crunch::reflect<Float>));
+        // namespaceTable.registerFunction("reflect2", LUANATIC_FUNCTION(&crunch::reflect<Float>));
 
         ClassWrapper<Vec3> vector3CW("Vec3");
         vector3CW.
@@ -1126,9 +1130,10 @@ namespace luanatic
             return crunchLua::Vec2(x, y);
         }
 
-        static void push(lua_State * _state, const crunchLua::Vec2 & _vector)
+        static stick::Int32 push(lua_State * _state, const crunchLua::Vec2 & _vector)
         {
             luanatic::push<crunchLua::Vec2>(_state, stick::defaultAllocator().create<crunchLua::Vec2>(_vector));
+            return 1;
         }
     };
 
@@ -1181,9 +1186,10 @@ namespace luanatic
             return crunchLua::Vec3(x, y, z);
         }
 
-        static void push(lua_State * _state, const crunchLua::Vec3 & _vector)
+        static stick::Int32 push(lua_State * _state, const crunchLua::Vec3 & _vector)
         {
             luanatic::push<crunchLua::Vec3>(_state, stick::defaultAllocator().create<crunchLua::Vec3>(_vector));
+            return 1;
         }
     };
 
@@ -1241,9 +1247,10 @@ namespace luanatic
             return crunchLua::Vec4(x, y, z, w);
         }
 
-        static void push(lua_State * _state, const crunchLua::Vec4 & _vector)
+        static stick::Int32 push(lua_State * _state, const crunchLua::Vec4 & _vector)
         {
             luanatic::push<crunchLua::Vec4>(_state, stick::defaultAllocator().create<crunchLua::Vec4>(_vector));
+            return 1;
         }
     };
 }
