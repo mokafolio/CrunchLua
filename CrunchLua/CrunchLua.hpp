@@ -170,10 +170,10 @@ namespace crunchLua
             Line2 * line = luanatic::convertToTypeAndCheck<Line2>(_luaState, 1);
             Line2 * line2 = luanatic::convertToTypeAndCheck<Line2>(_luaState, 2);
 
-            crunch::IntersectionResult<Vec2> result = intersect(*line, *line2);
+            auto result = intersect(*line, *line2);
 
             if (result)
-                luanatic::pushValueType<Vec2>(_luaState, result.intersections()[0]);
+                luanatic::pushValueType<Vec2>(_luaState, *result);
             else
                 lua_pushnil(_luaState);
 
@@ -185,10 +185,10 @@ namespace crunchLua
             LineSegment2 * line = luanatic::convertToTypeAndCheck<LineSegment2>(_luaState, 1);
             LineSegment2 * line2 = luanatic::convertToTypeAndCheck<LineSegment2>(_luaState, 2);
 
-            crunch::IntersectionResult<Vec2> result = intersect(*line, *line2);
+            auto result = intersect(*line, *line2);
 
             if (result)
-                luanatic::pushValueType<Vec2>(_luaState, result.intersections()[0]);
+                luanatic::pushValueType<Vec2>(_luaState, *result);
             else
                 lua_pushnil(_luaState);
 
