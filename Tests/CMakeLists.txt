@@ -1,3 +1,5 @@
 add_executable (CrunchLuaTests CrunchLuaTests.cpp)
+set_target_properties(CrunchLuaTests PROPERTIES COMPILE_FLAGS "-fsanitize=address")
+set_target_properties(CrunchLuaTests PROPERTIES LINK_FLAGS "-fsanitize=address")
 target_link_libraries(CrunchLuaTests ${CRUNCHLUADEPS})
 add_custom_target(check COMMAND CrunchLuaTests)
