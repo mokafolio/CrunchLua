@@ -1131,7 +1131,6 @@ namespace luanatic
 
         static stick::Int32 push(lua_State * _state, const crunchLua::Vec2 & _vector)
         {
-            printf("PUSHING VEC2 FROM VTC!!\n");
             luanatic::push<crunchLua::Vec2>(_state, stick::defaultAllocator().create<crunchLua::Vec2>(_vector));
             return 1;
         }
